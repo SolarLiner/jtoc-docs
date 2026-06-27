@@ -8,11 +8,12 @@ from typing import Callable
 def exec(command: str, *args: str, check=True, shell=True) -> int:
     import subprocess
 
-    print(shlex.join([command, *args]))
-    child_process = subprocess.Popen([command, *args], shell=shell, encoding="utf-8")
+    cmd_str = shlex.join([command, *args])
+    print(cmd_str)
+    child_process = subprocess.Popen(cmd_str, shell=shell, encoding="utf-8")
     retcode = child_process.wait()
     if check:
-        assert retcode == 0, "Child process did not exit successfully: " + shlex.join([command, *args])
+        assert retcode == 0, "Child process did not exit successfully: " + cmd_str
     return retcode
 
 
@@ -20,7 +21,6 @@ def compile(input: Path, format="pdf", typst: str | None = None) -> None:
     if not typst:
         typst = which("typst")
     assert typst is not None, f"typst required to generate {format} files"
-
 
     src_dir = Path("src").absolute()
     main_file = src_dir / "main.typ"
@@ -50,7 +50,7 @@ if __name__ == "__main__":
             with sem:
                 f()
         return wrapper
-    
+
     def mkthread(f: Callable[[], None]):
         t = Thread(target=f)
         t.start()
