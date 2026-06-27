@@ -4,7 +4,7 @@
 
 This repository contains the sources generating the documentation for the squadron.
 
-## Usage
+## Local usage
 
 Requirements:
 
