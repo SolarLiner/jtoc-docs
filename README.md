@@ -1,5 +1,7 @@
 # 141st JTOC — Documentation
 
+**Download**: [PDFs](https://nightly.link/SolarLiner/jtoc-docs/workflows/build/main/Documents.zip)
+
 This repository contains the sources generating the documentation for the squadron.
 
 ## Usage
