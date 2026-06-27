@@ -8,9 +8,15 @@ jobs:
   build-pdfs:
     runs-on: ubuntu-latest
     steps:
-       - name: Checkout
-         uses: actions/checkout@v7
-       - name: Setup Typst
-         uses: typst-community/setup-typst@v5.1.0
-       - name: Make PDFs
-         run: python make.py
+    - name: Checkout
+      uses: actions/checkout@v7
+    - name: Setup Typst
+      uses: typst-community/setup-typst@v5.1.0
+    - name: Make PDFs
+      run: python make.py
+    - name: Upload PDFs
+      uses: actions/upload-artifact@v7
+      with:
+        name: Documents
+        path: out/*.pdf
+
