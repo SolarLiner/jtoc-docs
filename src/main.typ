@@ -5,7 +5,10 @@
 
 #let (meta, body) = render-with-metadata(
   read(sys.inputs.file),
-  metadata-block: "frontmatter-yaml"
+  metadata-block: "frontmatter-yaml",
+  scope: (
+    image: (source, ..args) => image(source, ..args),
+  )
 )
 
 #show : conf.with(

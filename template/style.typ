@@ -7,16 +7,26 @@
 #let pagetitle(squadron, document-title, squadron-logo) = {
   show text: set text(font: font-title)
   show block: set align(horizon)
-  pagebreak(weak: true)
-  block[#text(size: 32pt, weight: 100, fill: gray, smallcaps(group-name))]
-  block[#text(size: 42pt, weight: 100)[#squadron]]
-  block[#text(size: 24pt, weight: 100, fill: luma(50%))[#document-title]]
-  show image: it => {
-    set align(center)
-    set block(above: 3cm)
-    it
+
+  context {
+    let frame = if target() == "html" {
+      html.frame
+    } else {
+      x => x
+    }
+
+    frame({
+      block[#text(size: 32pt, weight: 100, fill: gray, smallcaps(group-name))]
+      block[#text(size: 42pt, weight: 100)[#squadron]]
+      block[#text(size: 24pt, weight: 100, fill: luma(50%))[#document-title]]
+      show image: it => {
+        set align(center)
+        set block(above: 3cm)
+        it
+      }
+      image(squadron-logo, alt: "logo of the " + squadron + " squadron")
+    })
   }
-  image(squadron-logo, alt: "logo of the 77th fighter squadron")
   pagebreak()
 }
 
@@ -35,52 +45,24 @@
     numbering: "1",
   )
 
-  pagetitle(squadron, document-title, squadron-logo)
-
-  set text(font: font-body)
-  set par(justify: true, leading: 1em)
-
   set heading(numbering: "1.1.1.")
-  show heading: it => move(
-    dx: -measure(counter(heading).display() + " ").width,
-    block[#counter(heading).display()~#it.body]
-  )
+  show heading: it => if target() != "html" {
+    move(
+      dx: -measure(counter(heading).display() + " ").width,
+      block[#counter(heading).display()~#it.body]
+    )
+  }
   show heading.where(depth: 1): set text(size: 18pt, weight: 100)
   show heading.where(depth: 2): set text(size: 14pt, weight: 800)
   show figure: set block(breakable: true)
   show heading.where(depth: 1): it => { pagebreak(weak: true); it }
-  
-  align(
-    center + horizon,
-  )[
-    #let version = counter("version")
-    #table(
-      columns: (1fr, 2fr, 5fr), align: (left, left, left,),
-      table.header([Version], [Date], [Changes]),
-      ..revisions.map(entry => (
-        {
-          context version.step()
-          context version.display("v1")
-        },
-        entry.date.display("[year]-[month]-[day]"),
-        entry.changes
-      )).flatten()
-    )
-    #block(height: 5cm)
-    #block(align(left, par(justify: true)[
-      This document is reserved for usage within the 141st JTOC and for recreational purposes only, and the procedures described in this document are only intended to work within DCS World and as part of official 141st JTOC missions. It is not adequate for real world flying.
-    ]))
-  ]
 
-  pagebreak()
+  show ref: set text(fill: blue.darken(50%))
+  show link: it => text(fill: blue.darken(20%))[#emoji.chain #it]
 
-  {
-    show heading: it => it.body
-    outline(title: [Contents])
-  }
+  set text(font: font-body)
+  set par(justify: true, leading: 1em)
 
-  pagebreak(to: "odd")
-  
   set page(
     header: columns(2, gutter: 1cm)[
       #set text(font: font-title, size: 9pt, weight: 100)
@@ -93,6 +75,51 @@
       #block(text(font: font-body, context hydra(1)))
     ]
   )
+
+  let toplevel = {
+    pagetitle(squadron, document-title, squadron-logo)
+    
+    align(
+      center + horizon,
+    )[
+      #let version = counter("version")
+      #table(
+        columns: (1fr, 2fr, 5fr), align: (left, left, left,),
+        table.header([Version], [Date], [Changes]),
+        ..revisions.map(entry => (
+          {
+            context version.step()
+            context version.display("v1")
+          },
+          entry.date.display("[year]-[month]-[day]"),
+          entry.changes
+        )).flatten()
+      )
+      #block(height: 5cm)
+      #block(align(left, par(justify: true)[
+        This document is reserved for usage within the 141st JTOC and for recreational purposes only, and the procedures described in this document are only intended to work within DCS World and as part of official 141st JTOC missions. It is not adequate for real world flying.
+      ]))
+    ]
+
+    pagebreak()
+
+    {
+      show heading: it => it.body
+      outline(title: [Contents])
+    }
+
+    pagebreak(to: "odd")
+
+    doc
+  }
   
-  doc
+  context if target() == "html" {
+    show footnote: {}
+    html.html[
+      // #html.link(rel: "stylesheet", href: "/assets/css/page.css") // TODO: Find a way to include CSS
+      #html.body(toplevel)
+    ]
+  } else {
+    toplevel
+  }
 }
