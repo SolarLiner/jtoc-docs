@@ -4,8 +4,9 @@
 #let font-body = "Gelasio"
 #let group-name = "141st JTOC"
 
-#let pagetitle(squadron, document-title, squadron-logo) = {
-  show text: set text(font: font-title)
+#let revision = counter("revision")
+
+#let pagetitle(squadron, document-title, squadron-logo, last-change) = {
   show block: set align(horizon)
 
   context {
@@ -16,9 +17,9 @@
     }
 
     frame({
-      block[#text(size: 32pt, weight: 100, fill: gray, smallcaps(group-name))]
-      block[#text(size: 42pt, weight: 100)[#squadron]]
-      block[#text(size: 24pt, weight: 100, fill: luma(50%))[#document-title]]
+      block[#text(font: font-title, size: 32pt, weight: 100, fill: gray, smallcaps(group-name))]
+      block[#text(font: font-title, size: 42pt, weight: 100)[#squadron]]
+      block[#text(font: font-title, size: 24pt, weight: 100, fill: luma(50%))[#document-title]]
       show image: it => {
         set align(center)
         set block(above: 3cm)
@@ -27,6 +28,9 @@
       image(squadron-logo, alt: "logo of the " + squadron + " squadron")
     })
   }
+  align(center, text(font: font-body, fill: gray, block[
+    Revision #context revision.final().first(), edited #last-change.display("[year]-[month]-[day]")
+  ]))
   pagebreak()
 }
 
@@ -77,19 +81,18 @@
   )
 
   let toplevel = {
-    pagetitle(squadron, document-title, squadron-logo)
+    pagetitle(squadron, document-title, squadron-logo, revisions.last().date)
     
     align(
       center + horizon,
     )[
-      #let version = counter("version")
       #table(
-        columns: (1fr, 2fr, 5fr), align: (left, left, left,),
-        table.header([Version], [Date], [Changes]),
-        ..revisions.map(entry => (
+        columns: (1.5fr, 2fr, 5fr), align: (left, left, left,),
+        table.header([Revision], [Date], [Changes]),
+        ..revisions.sorted(key: e => e.date).map(entry => (
           {
-            context version.step()
-            context version.display("v1")
+            context revision.step()
+            context revision.display("v1")
           },
           entry.date.display("[year]-[month]-[day]"),
           entry.changes
