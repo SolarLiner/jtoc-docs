@@ -292,16 +292,12 @@ It is the responsibility of the aviator to ensure that any interactions with gue
 * Check flight controls, trim, flaps and confirm your aircraft is hooked up call your number and then “set cat \[number\]” on interflight  
 * If operating ashore, call “\[flight number, set\]” after lineup.
 
- 
-
 ### CASE I 
 
 * Make a clearing turn from the carrier, after takeoff, call “airborne” on interflight  
 * Continue on carrier’s BRC for 7nm at 300kn, below 500ft  
 * Rejoin on flight lead as soon as possible  
 * Keep AUX radio on tower until command to switch is given
-
-![Case I diagram](/assets/images/vf-103-case-i.png)
 
 ### CASE II 
 
@@ -321,8 +317,6 @@ It is the responsibility of the aviator to ensure that any interactions with gue
 * Call “\[BORT, on top at \[ALTITUDE\]\]” when above weather  
 * Call “\[BORT, popeye\]” if not above weather by 18,000ft AGL  
 * Lead calls “\[FLIGHT, kilo\]” when mission ready
-
-![Carrier Altitudes and Zoning](/assets/images/vf-103-carrier-altitudes-and-zoning.png)
 
 ## FENCE 
 
@@ -370,16 +364,11 @@ It is the responsibility of the aviator to ensure that any interactions with gue
 * Proceed with recovery procedure.
 
 
-<!-- ![][image2]   -->
-Case 1 Marshal Stack Pattern. Note the Final Bearing (FB; the runway heading) is offset 9 degrees left of Base Recovery Course (BRC; Carrier Heading).
+![Carrier Altitudes and Zoning](/assets/images/VF-103-carrier-altitudes-and-zoning.png)
 
-<!-- ![][image3] -->
-
-### 
-
-### 
-
-### 
+<figure><figcaption>Case 1 Marshal Stack Pattern. Note the Final Bearing (FB; the runway heading) is offset 9 degrees left of Base Recovery Course (BRC; Carrier Heading).</figcaption>
+<img src="/assets/images/VF-103-case-i.png" alt="Case 1 Marshal Stack pattern diagram" width="300"/>
+</figure>
 
 ### CASE II 
 
